@@ -2,7 +2,10 @@ package main
 
 import "fmt"
 
-func main() {
-	fmt.Println("Hello")
+func getSecretWord(string) string {
+	return "navaneeth"
+}
 
+func main() {
+	fmt.Println(getSecretWord("/usr/share/dict/words"))
 }
