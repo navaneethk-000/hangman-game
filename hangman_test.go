@@ -19,5 +19,4 @@ func TestSecretWordLength(t *testing.T) {
 	if secretWordLength < 6 {
 		t.Errorf("Shoulf not get words of length less than 6. Got %v", secretWordLength)
 	}
-
 }
