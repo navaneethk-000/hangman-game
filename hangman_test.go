@@ -13,6 +13,16 @@ func TestSecretWordNoCapitals(t *testing.T) {
 	}
 }
 
+func TestSecretWordPunctuation(t *testing.T) {
+	wordList := "/usr/share/dict/words"
+	secretWord := getSecretWord(wordList)
+	for _, ch := range secretWord {
+		if ch >= 'a' && ch <= 'z' {
+			t.Errorf("Secret word contains invalid character: %q", ch)
+		}
+	}
+}
+
 func TestSecretWordLength(t *testing.T) {
 	wordList := "/usr/share/dict/words"
 	secretWordLength := len(getSecretWord(wordList))
