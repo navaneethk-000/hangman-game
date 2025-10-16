@@ -24,6 +24,10 @@ func NewGame(secretWord string) Game {
 	}
 }
 
+func checkGuess(state Game, userInput string) Game {
+	return state
+}
+
 func hasPunctuation(s string) bool {
 	for _, ch := range s {
 		if ch < 'a' || ch > 'z' {
