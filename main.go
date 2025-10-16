@@ -8,6 +8,22 @@ import (
 	"strings"
 )
 
+type Game struct {
+	secretWord       string
+	guessedLetters   []byte
+	chancesRemaining uint
+	correctGuesses   []byte
+}
+
+func NewGame(secretWord string) Game {
+	return Game{
+		secretWord:       secretWord,
+		guessedLetters:   []byte{},
+		chancesRemaining: 7,
+		correctGuesses:   []byte{},
+	}
+}
+
 func hasPunctuation(s string) bool {
 	for _, ch := range s {
 		if ch < 'a' || ch > 'z' {
