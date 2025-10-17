@@ -23,7 +23,7 @@ func createDictFile(words []string) (string, error) {
 }
 
 func TestSecretWordNoCapitals(t *testing.T) {
-	wordList, err := createDictFile([]string{"Lion", "Elephant", "monkey"})
+	wordList, err := createDictFile([]string{"Lion", "Parrot", "monkey"})
 	defer os.Remove(wordList)
 	if err != nil {
 
