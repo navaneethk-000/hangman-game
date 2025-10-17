@@ -28,9 +28,15 @@ func NewGame(secretWord string) Game {
 func checkGuess(state Game, userInput string) Game {
 
 	guess := userInput[0]
-	if state.chancesRemaining > 1 && strings.ContainsRune(state.secretWord, rune(guess)) && !bytes.Contains(state.guessedLetters, []byte{guess}) {
-		state.correctGuesses = append(state.correctGuesses, guess)
-		state.guessedLetters = append(state.guessedLetters, guess)
+	if state.chancesRemaining > 1 && !bytes.Contains(state.guessedLetters, []byte{guess}) {
+
+		if strings.ContainsRune(state.secretWord, rune(guess)) {
+			state.correctGuesses = append(state.correctGuesses, guess)
+			state.guessedLetters = append(state.guessedLetters, guess)
+		} else {
+			state.guessedLetters = append(state.guessedLetters, guess)
+			state.chancesRemaining--
+		}
 	}
 
 	return state
