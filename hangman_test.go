@@ -68,7 +68,7 @@ func TestSecretWordLength(t *testing.T) {
 
 func TestCorrectGuess(t *testing.T) {
 
-	secretWord := "computer"
+	secretWord := "elephant"
 	state := NewGame(secretWord)
 
 	userInput := "e"
@@ -80,6 +80,33 @@ func TestCorrectGuess(t *testing.T) {
 		guessedLetters:   append(state.guessedLetters, userInput[0]),
 		correctGuesses:   append(state.correctGuesses, userInput[0]),
 	}
+	if newState.secretWord != expected.secretWord {
+		t.Errorf("Secret word is modified")
+	}
+	if newState.chancesRemaining != expected.chancesRemaining {
+		t.Errorf("Remaining chances modified")
+	}
+	if string(newState.guessedLetters) != string(expected.guessedLetters) {
+		t.Errorf("Expected %q but got %q", expected.guessedLetters, newState.guessedLetters)
+	}
+	if string(newState.correctGuesses) != string(expected.correctGuesses) {
+		t.Errorf("Expected %q but got %q", expected.correctGuesses, newState.correctGuesses)
+	}
+
+}
+
+func TestWrongGuess(t *testing.T) {
+	secretWord := "elephant"
+	state := NewGame(secretWord)
+	userInput := "z"
+	newState := checkGuess(state, userInput)
+	expected := Game{
+		secretWord:       secretWord,
+		chancesRemaining: 6,
+		guessedLetters:   []byte{'e', 'z'},
+		correctGuesses:   []byte{},
+	}
+
 	if newState.secretWord != expected.secretWord {
 		t.Errorf("Secret word is modified")
 	}
