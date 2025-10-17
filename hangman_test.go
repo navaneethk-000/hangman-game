@@ -97,9 +97,14 @@ func TestCorrectGuess(t *testing.T) {
 
 func TestWrongGuess(t *testing.T) {
 	secretWord := "elephant"
-	state := NewGame(secretWord)
+	currentState := Game{
+		secretWord:       secretWord,
+		chancesRemaining: 7,
+		guessedLetters:   []byte{'e'},
+		correctGuesses:   []byte{},
+	}
 	userInput := "z"
-	newState := checkGuess(state, userInput)
+	newState := checkGuess(currentState, userInput)
 	expected := Game{
 		secretWord:       secretWord,
 		chancesRemaining: 6,
