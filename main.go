@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"fmt"
 	"math/rand"
 	"os"
@@ -25,6 +26,13 @@ func NewGame(secretWord string) Game {
 }
 
 func checkGuess(state Game, userInput string) Game {
+
+	guess := userInput[0]
+	if state.chancesRemaining > 1 && strings.ContainsRune(state.secretWord, rune(guess)) && !bytes.Contains(state.guessedLetters, []byte{guess}) {
+		state.correctGuesses = append(state.correctGuesses, guess)
+		state.guessedLetters = append(state.guessedLetters, guess)
+	}
+
 	return state
 }
 

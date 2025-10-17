@@ -83,7 +83,7 @@ func TestCorrectGuess(t *testing.T) {
 	if newState.secretWord != expected.secretWord {
 		t.Errorf("Secret word is modified")
 	}
-	if !(newState.chancesRemaining != expected.chancesRemaining) {
+	if newState.chancesRemaining != expected.chancesRemaining {
 		t.Errorf("Remaining chances modified")
 	}
 	if string(newState.guessedLetters) != string(expected.guessedLetters) {
