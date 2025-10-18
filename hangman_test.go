@@ -160,6 +160,41 @@ func TestWrongGuess(t *testing.T) {
 
 }
 
+func TestWrongGuess2(t *testing.T) {
+	secretWord := "elephant"
+	userInput := 'n'
+
+	currentState := Game{
+		secretWord:       secretWord,
+		guessedLetters:   []byte{'e', 'z', 'p'},
+		correctGuesses:   []byte{'e', 'p'},
+		chancesRemaining: 5,
+	}
+
+	newState := checkGuess(currentState, byte(userInput))
+
+	expected := Game{
+		secretWord:       secretWord,
+		guessedLetters:   []byte{'e', 'z', 'p', 'n'},
+		correctGuesses:   []byte{'e', 'p', 'n'},
+		chancesRemaining: 5,
+	}
+
+	if newState.secretWord != expected.secretWord {
+		t.Errorf("Secret word is modified")
+	}
+	if newState.chancesRemaining != expected.chancesRemaining {
+		t.Errorf("Remaining chances modified")
+	}
+	if string(newState.guessedLetters) != string(expected.guessedLetters) {
+		t.Errorf("Expected %q but got %q", expected.guessedLetters, newState.guessedLetters)
+	}
+	if string(newState.correctGuesses) != string(expected.correctGuesses) {
+		t.Errorf("Expected %q but got %q", expected.correctGuesses, newState.correctGuesses)
+	}
+
+}
+
 func TestAlreadyGuessed(t *testing.T) {
 	secretWord := "elephant"
 	currentState := Game{
