@@ -25,9 +25,9 @@ func NewGame(secretWord string) Game {
 	}
 }
 
-func checkGuess(state Game, userInput string) Game {
+func checkGuess(state Game, userInput byte) Game {
 
-	guess := userInput[0]
+	guess := userInput
 	if state.chancesRemaining > 1 && !bytes.Contains(state.guessedLetters, []byte{guess}) {
 
 		if strings.ContainsRune(state.secretWord, rune(guess)) {

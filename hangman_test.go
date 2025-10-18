@@ -69,16 +69,16 @@ func TestSecretWordLength(t *testing.T) {
 func TestCorrectGuess(t *testing.T) {
 
 	secretWord := "elephant"
+	userInput := 'e'
 	state := NewGame(secretWord)
 
-	userInput := "e"
-	newState := checkGuess(state, userInput)
+	newState := checkGuess(state, byte(userInput))
 
 	expected := Game{
 		secretWord:       secretWord,
 		chancesRemaining: 7,
-		guessedLetters:   append(state.guessedLetters, userInput[0]),
-		correctGuesses:   append(state.correctGuesses, userInput[0]),
+		guessedLetters:   append(state.guessedLetters, byte(userInput)),
+		correctGuesses:   append(state.correctGuesses, byte(userInput)),
 	}
 	if newState.secretWord != expected.secretWord {
 		t.Errorf("Secret word is modified")
@@ -95,23 +95,56 @@ func TestCorrectGuess(t *testing.T) {
 
 }
 
+func TestCorrectGuess2(t *testing.T) {
+	secretWord := "elephant"
+	userInput := 'e'
+	state := Game{
+		secretWord:       secretWord,
+		chancesRemaining: 7,
+		guessedLetters:   []byte{'l', 'b', 'z'},
+		correctGuesses:   []byte{'l'},
+	}
+
+	newState := checkGuess(state, byte(userInput))
+
+	expected := Game{
+		secretWord:       state.secretWord,
+		chancesRemaining: state.chancesRemaining,
+		guessedLetters:   append(state.guessedLetters, byte(userInput)),
+		correctGuesses:   append(state.correctGuesses, byte(userInput)),
+	}
+
+	if newState.secretWord != expected.secretWord {
+		t.Errorf("Secret word is modified")
+	}
+	if newState.chancesRemaining != expected.chancesRemaining {
+		t.Errorf("Remaining chances modified")
+	}
+	if string(newState.guessedLetters) != string(expected.guessedLetters) {
+		t.Errorf("Expected %q but got %q", expected.guessedLetters, newState.guessedLetters)
+	}
+	if string(newState.correctGuesses) != string(expected.correctGuesses) {
+		t.Errorf("Expected %q but got %q", expected.correctGuesses, newState.correctGuesses)
+	}
+}
+
 func TestWrongGuess(t *testing.T) {
 	secretWord := "elephant"
+	userInput := 'z'
 	currentState := Game{
 		secretWord:       secretWord,
 		chancesRemaining: 7,
 		guessedLetters:   []byte{'e'},
-		correctGuesses:   []byte{},
+		correctGuesses:   []byte{'e'},
 	}
-	userInput := "z"
-	newState := checkGuess(currentState, userInput)
+
+	newState := checkGuess(currentState, byte(userInput))
 	expected := Game{
 		secretWord:       secretWord,
 		chancesRemaining: 6,
 		guessedLetters:   []byte{'e', 'z'},
-		correctGuesses:   []byte{},
+		correctGuesses:   []byte{'e'},
 	}
-
 	if newState.secretWord != expected.secretWord {
 		t.Errorf("Secret word is modified")
 	}
@@ -133,15 +166,15 @@ func TestAlreadyGuessed(t *testing.T) {
 		secretWord:       secretWord,
 		chancesRemaining: 6,
 		guessedLetters:   []byte{'e', 'z'},
-		correctGuesses:   []byte{},
+		correctGuesses:   []byte{'e'},
 	}
-	userInput := "z"
-	newState := checkGuess(currentState, userInput)
+	userInput := 'z'
+	newState := checkGuess(currentState, byte(userInput))
 	expected := Game{
 		secretWord:       secretWord,
 		chancesRemaining: 6,
 		guessedLetters:   []byte{'e', 'z'},
-		correctGuesses:   []byte{},
+		correctGuesses:   []byte{'e'},
 	}
 
 	if newState.secretWord != expected.secretWord {
