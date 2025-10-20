@@ -240,3 +240,29 @@ func TestHasWonGame(t *testing.T) {
 	}
 
 }
+
+func TestHasLossGame1(t *testing.T) {
+	State := Game{
+		secretWord:       "success",
+		chancesRemaining: 7,
+		guessedLetters:   []byte{'s', 'u', 'c'},
+		correctGuesses:   []byte{'s', 'u', 'c'},
+	}
+	if hasWonGame(State) {
+		t.Errorf("Expected false but got true")
+	}
+
+}
+
+func TestHasLossGame2(t *testing.T) {
+	State := Game{
+		secretWord:       "success",
+		chancesRemaining: 0,
+		guessedLetters:   []byte{'s', 'u', 'c', 'z', 'm', 'b', 'n', 'p', 'q', 'l'},
+		correctGuesses:   []byte{'s', 'u', 'c'},
+	}
+	if hasWonGame(State) {
+		t.Errorf("Expected false but got true")
+	}
+
+}
