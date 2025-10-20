@@ -28,7 +28,7 @@ func NewGame(secretWord string) Game {
 func checkGuess(state Game, userInput byte) Game {
 
 	guess := userInput
-	if state.chancesRemaining > 1 && !bytes.Contains(state.guessedLetters, []byte{guess}) {
+	if state.chancesRemaining > 0 && !bytes.Contains(state.guessedLetters, []byte{guess}) {
 
 		if strings.ContainsRune(state.secretWord, rune(guess)) {
 			state.correctGuesses = append(state.correctGuesses, guess)
@@ -75,6 +75,23 @@ func getSecretWord(wordFileName string) string {
 	return allowedWords[randomNum]
 }
 
+func hasWonGame(state Game) bool {
+	guessedLetters := make(map[byte]bool)
+
+	for _, ch := range state.correctGuesses {
+		guessedLetters[ch] = true
+	}
+
+	for i := 0; i < len(state.secretWord); i++ {
+		if !guessedLetters[state.secretWord[i]] {
+			return false
+		}
+	}
+	return true
+}
+
 func main() {
-	fmt.Println(getSecretWord("/usr/share/dict/words"))
+
+	secretWord := getSecretWord("/usr/share/dict/words")
+	fmt.Println(secretWord)
 }

@@ -227,15 +227,15 @@ func TestAlreadyGuessed(t *testing.T) {
 
 }
 
-func TestHasWonGame1(t *testing.T) {
-	currentState := Game{
+func TestHasWonGame(t *testing.T) {
+	state := Game{
 		secretWord:       "elephant",
-		chancesRemaining: 4,
+		chancesRemaining: 2,
 		guessedLetters:   []byte{'e', 'd', 'z', 'n', 'w', 'p', 'm', 'l', 'h', 'a', 'v', 't'},
 		correctGuesses:   []byte{'e', 'n', 'p', 'l', 'h', 'a', 't'},
 	}
 
-	if !hasWonGame(currentState) {
+	if !hasWonGame(state) {
 		t.Errorf("Expected true but got false")
 	}
 
