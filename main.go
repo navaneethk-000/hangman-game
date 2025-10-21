@@ -102,6 +102,22 @@ func hasLossGame(state Game) bool {
 	return state.chancesRemaining == 0
 }
 
+func displayGame(state Game) string {
+	var builder strings.Builder
+
+	for _, ch := range state.secretWord {
+		letter := byte(ch)
+		if bytes.Contains(state.guessedLetters, []byte{letter}) {
+			builder.WriteByte(letter)
+		} else {
+			builder.WriteByte('-')
+		}
+	}
+
+	return builder.String()
+
+}
+
 func main() {
 	secretWord := getSecretWord("/usr/share/dict/words")
 	game := NewGame(secretWord)
@@ -114,6 +130,7 @@ func main() {
 			break
 		}
 
+		fmt.Println("Word:", displayGame(game))
 		fmt.Println("Chances remaining:", game.chancesRemaining)
 		fmt.Println("Guessed Letters : ", string(game.guessedLetters))
 
