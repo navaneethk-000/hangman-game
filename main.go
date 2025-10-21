@@ -28,8 +28,11 @@ func NewGame(secretWord string) Game {
 func checkGuess(state Game, userInput byte) Game {
 
 	guess := userInput
-	if state.chancesRemaining > 0 && !bytes.Contains(state.guessedLetters, []byte{guess}) {
-
+	if state.chancesRemaining > 0 {
+		if bytes.Contains(state.guessedLetters, []byte{guess}) {
+			fmt.Printf("'%c' is already guessed\n", guess)
+			return state
+		}
 		if strings.ContainsRune(state.secretWord, rune(guess)) {
 			state.correctGuesses = append(state.correctGuesses, guess)
 			state.guessedLetters = append(state.guessedLetters, guess)
@@ -91,7 +94,7 @@ func hasWonGame(state Game) bool {
 }
 
 func getGuess() byte {
-	fmt.Print("Guess a letter : ")
+	fmt.Print("\nGuess a letter : ")
 	reader := bufio.NewReader(os.Stdin)
 	ch, _ := reader.ReadByte()
 	reader.ReadByte()
@@ -130,8 +133,8 @@ func main() {
 			break
 		}
 
-		fmt.Println("Word:", displayGame(game))
-		fmt.Println("Chances remaining:", game.chancesRemaining)
+		fmt.Println("\nWord:", displayGame(game))
+		fmt.Println("\nChances remaining:", game.chancesRemaining)
 		fmt.Println("Guessed Letters : ", string(game.guessedLetters))
 
 		guess := getGuess()
