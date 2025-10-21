@@ -266,3 +266,19 @@ func TestHasLossGame2(t *testing.T) {
 	}
 
 }
+
+func TestDisplayGame(t *testing.T) {
+	state := Game{
+		secretWord:       "success",
+		chancesRemaining: 0,
+		guessedLetters:   []byte{'s', 'u', 'c', 'z', 'x', 'b', 'n', 'p', 'q', 'l'},
+	}
+
+	expected := "success"
+	actual := displayGame(state)
+
+	if actual == expected {
+		t.Errorf("Expected %q but got %q", expected, actual)
+	}
+
+}
